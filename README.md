@@ -1,5 +1,7 @@
 # Tab Suspender
 
+This fork adds support for suspending background tabs by tabs count, instead of timer.
+
 Firefox addon link: https://addons.mozilla.org/ru/firefox/addon/tab-suspender-extension/
 
 Tab Suspender is a lightweight Firefox extension that helps reduce memory usage by suspending inactive tabs. It uses the native discard API in Firefox to free up system resources used by background tabs.

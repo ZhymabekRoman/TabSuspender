@@ -4,13 +4,17 @@ async function loadScript() {
   let elmCurrentTab = document.getElementById('current_tab')
   let elmAudibleTab = document.getElementById('audible_tabs')
   let elmPinnedTab = document.getElementById('pinned_tabs')
+  
   let elmWhitelistTab = document.getElementById('whitelist_tab')
 
   let elmWhitelistArrow = document.getElementById('whitelist_arrow')
   let elmWhitelistDiv = document.getElementById('whitelist_div')
 
   let eAppTitle = document.getElementById('app_title')
-  let eSuspendAfter = document.getElementById('suspend_after')
+  let suspendTimerRadio = document.getElementById('suspend_timer_radio');
+  // let eSuspendAfter = document.getElementById('suspend_after')
+  let suspendTabsRadio = document.getElementById('suspend_tabs_radio');
+  let elmMaxTabs = document.getElementById('max_tabs_input')
   let eDoNotSuspendThis = document.getElementById('do_not_suspend_this')
   let eAddToWhitelist = document.getElementById('add_to_whitelist')
   let eIgnoreAudible = document.getElementById('ignore_audible')
@@ -18,7 +22,7 @@ async function loadScript() {
   let eDisableApp = document.getElementById('disable_app')
 
   eAppTitle.innerText = browser.i18n.getMessage('appTitle')
-  eSuspendAfter.innerText = browser.i18n.getMessage('suspendAfter')
+  suspendTimerRadio.innerText = browser.i18n.getMessage('suspendAfter')
   eDoNotSuspendThis.innerText = browser.i18n.getMessage('doNotSuspendThisTab')
   eAddToWhitelist.innerText = browser.i18n.getMessage('addThisToWhitelist')
   eIgnoreAudible.innerText = browser.i18n.getMessage('ignoreAudible')
@@ -30,7 +34,33 @@ async function loadScript() {
     active: true
   })
   let currentTabId = tabArray[0].id
-  //console.log('currentTabId', tabArray[0]);
+  console.log('currentTabId', tabArray[0]);
+  
+    suspendTimerRadio.addEventListener('change', function (e) {
+      browser.storage.local.set({
+        suspendTimerRadio: e.target.checked,
+        suspendTabsRadio: !e.target.checked
+      });
+    });
+    
+    suspendTabsRadio.addEventListener('change', function (e) {
+      browser.storage.local.set({
+        suspendTabsRadio: e.target.checked,
+        suspendTimerRadio: !e.target.checked
+      });
+    });
+  
+    browser.storage.local.get('suspendTimerRadio').then(function (i) {
+      if (i && i.hasOwnProperty('suspendTimerRadio')) {
+        suspendTimerRadio.checked = i.suspendTimerRadio;
+      }
+    });
+    
+    browser.storage.local.get('suspendTabsRadio').then(function (i) {
+      if (i && i.hasOwnProperty('suspendTabsRadio')) {
+        suspendTabsRadio.checked = i.suspendTabsRadio;
+      }
+    });
 
   // whitelist accordion
   elmWhitelistArrow.addEventListener('click', function (e) {
@@ -119,6 +149,13 @@ async function loadScript() {
     })
   })
 
+  elmMaxTabs.addEventListener('change', function (e) {
+    var elm = e.target;
+    browser.storage.local.set({
+      maxTabs: elm.value
+    });
+  });
+
   elmTimeoutSelect.addEventListener('change', function (e) {
     var elm = e.target
     //console.log('changed to', elm.value);
@@ -175,6 +212,12 @@ async function loadScript() {
       elmTimeoutSelect.value = i.timeoutCount
     }
   })
+
+  browser.storage.local.get('maxTabs').then(function (i) {
+    if (i && i.maxTabs) {
+      elmMaxTabs.value = i.maxTabs;
+    }
+  });
 
   browser.storage.local.get('suspendApp').then(function (i) {
     if (i && i.suspendApp) {
@@ -249,3 +292,5 @@ function getWhitelistDivContents(whitelist) {
 }
 
 loadScript()
+
+

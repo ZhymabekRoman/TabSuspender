@@ -11,13 +11,24 @@
       <span style="font-size: 16px; font-weight: bold" id="app_title"
         >New Tab Suspender
       </span>
-      <sup style="font-size: 10px">1.9</sup>
+      <sup style="font-size: 10px">2.0</sup>
     </div>
     <ul class="main-list">
       <li>
-        <div class="panel">
-          <span id="suspend_after">Suspend after:</span>
-          <select style="float: right" id="timeout_select">
+        <div>
+          <label class="stop-all">
+            <span id="disable_app">Disable Tab Suspender</span>
+            <input type="checkbox" id="suspend_all" class="move-right" />
+          </label>
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>
+            <input type="radio" name="suspend_option" value="timer" checked="checked" id="suspend_timer_radio" />
+            Suspend after:
+          </label>
+          <select id="timeout_select">
             <option value="5000">5 Seconds</option>
             <option value="10000">10 Seconds</option>
             <option value="30000">30 Seconds</option>
@@ -33,6 +44,15 @@
             <option value="7200000">2 Hours</option>
             <option value="18000000">5 Hours</option>
           </select>
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>
+            <input type="radio" name="suspend_option" value="tabs" id="suspend_tabs_radio" />
+            Max Tabs:
+          </label>
+          <input type="number" id="max_tabs_input"/>
         </div>
       </li>
       <li>
@@ -64,14 +84,6 @@
           <label class="pinned-tabs">
             <span id="ignore_pinned">Ignore pinned tabs</span>
             <input type="checkbox" id="pinned_tabs" class="move-right" />
-          </label>
-        </div>
-      </li>
-      <li>
-        <div>
-          <label class="stop-all">
-            <span id="disable_app">Disable Tab Suspender</span>
-            <input type="checkbox" id="suspend_all" class="move-right" />
           </label>
         </div>
       </li>
