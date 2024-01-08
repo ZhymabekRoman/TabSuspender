@@ -172,7 +172,7 @@ async function setDiscardTimer(tabId, previousTabId) {
 
 async function tabDiscardByLimits() {
   console.log("tabDiscardByLimits was called");
-  browser.tabs.query({}).then((allTabs) => {
+  browser.tabs.query({discarded: false}).then((allTabs) => {
     console.log('onCreated listener - allTabs', allTabs.length)
     if (useTimer == 'true') {
       console.log('Ignoring, since useTimer is true')
